@@ -1,0 +1,6 @@
+.bundle/
+.idea/
+.yardoc/
+doc/
+log/*.log
+pkg/
