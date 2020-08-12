@@ -14,7 +14,7 @@ Gem::Specification.new do |spec|
   spec.homepage    = 'https://github.com/iMacTia/carbonyte'
   spec.summary     = 'Build Microservices-oriented Architectures with ease'
   spec.description = 'Carbonyte is the core of great Microservices-oriented Architectures.'
-  spec.license     = 'Copyright'
+  spec.license     = 'MIT'
   spec.files = Dir['{app,config,db,lib}/**/*', 'Rakefile', 'README.md']
 
   spec.add_dependency 'interactor-rails', '~> 2.0'
