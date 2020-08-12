@@ -19,9 +19,14 @@ Gem::Specification.new do |spec|
 
   spec.add_dependency 'interactor-rails', '~> 2.0'
   spec.add_dependency 'jsonapi-serializer', '~> 2.0'
+  spec.add_dependency 'lograge', '~> 0.11'
+  spec.add_dependency 'logstash-event', '~> 1.2'
   spec.add_dependency 'pundit', '~> 2.1'
   spec.add_dependency 'rails', '~> 6.0.3', '>= 6.0.3.2'
+  spec.add_dependency 'request_store', '~> 1.5'
 
   spec.add_development_dependency 'inch', '~> 0.8.0'
   spec.add_development_dependency 'rspec-rails', '~> 4.0'
+  spec.add_development_dependency 'rubocop-performance', '~> 1.5'
+  spec.add_development_dependency 'rubocop-rails', '~> 2.7'
 end
