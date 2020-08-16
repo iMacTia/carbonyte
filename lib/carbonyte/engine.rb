@@ -8,6 +8,7 @@ module Carbonyte
     isolate_namespace Carbonyte
 
     include Initializers::Lograge
+    include Initializers::Sidekiq
 
     initializer 'carbonyte.catch_404' do
       config.after_initialize do |app|

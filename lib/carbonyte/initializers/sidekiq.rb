@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
-require 'lograge'
+require 'sidekiq'
+require 'sidekiq/logstash'
 
 module Carbonyte
   module Initializers
@@ -10,17 +11,17 @@ module Carbonyte
 
       included do
         initializer 'carbonyte.sidekiq' do
-          Sidekiq::Logstash.setup
+          ::Sidekiq::Logstash.setup
 
           ::Sidekiq.configure_client do |config|
-            config.redis = { url: Rails.application.config.redis_url }
+            # config.redis = { url: Rails.application.config.redis_url }
             config.client_middleware do |chain|
               chain.add Middleware::SaveRequestStore
             end
           end
 
           ::Sidekiq.configure_server do |config|
-            config.redis = { url: Rails.application.config.redis_url }
+            # config.redis = { url: Rails.application.config.redis_url }
             config.server_middleware do |chain|
               chain.add Middleware::LoadRequestStore
             end
@@ -32,7 +33,7 @@ module Carbonyte
       module Middleware
         # This Client middleware adds the RequestStore payload to the job
         class SaveRequestStore
-          def call(_worker, job, _queue)
+          def call(_worker, job, _queue, _redis_pool)
             job['current_user_id'] = RequestStore.store[:current_user_id]
             job['correlation_id'] = RequestStore.store[:correlation_id]
             yield
