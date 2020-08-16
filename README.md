@@ -13,8 +13,10 @@ And then execute:
 $ bundle
 ```
 
-## Usage
-TBD
+## Configuration
+```ruby
+Rails.application.config.redis_url
+```
 
 ## Contributing
 Before pushing:
