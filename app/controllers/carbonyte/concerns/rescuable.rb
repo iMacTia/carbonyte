@@ -14,6 +14,24 @@ module Carbonyte
         rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
       end
 
+      # Upon rescuing an exception, stores that exception in RequestStore for later logging
+      # @param exception [StandardError] the rescued exception
+      def rescue_with_handler(exception)
+        RequestStore.store[:rescued_exception] = exception
+        super
+      end
+
+      # This is a special case
+      def route_not_found
+        payload = {
+          code: 'RoutingError',
+          source: request.path,
+          title: 'Route not found',
+          detail: "No route matches #{request.path}"
+        }
+        render json: serialized_errors(payload), status: :not_found
+      end
+
       private
 
       def serialized_errors(payload)

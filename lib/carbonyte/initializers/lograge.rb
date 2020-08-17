@@ -48,12 +48,13 @@ module Carbonyte
 
       def custom_payload(controller)
         exceptions = %w[controller action]
-        {
-          params: controller.params.except(*exceptions).to_s,
+        payload = {
+          params: controller.params.except(*exceptions),
           headers: parse_headers(controller.request.headers),
-          user_id: controller.current_user&.id,
           remote_ip: controller.remote_ip
         }
+        payload[:user_id] = controller.current_user&.id if controller.respond_to?(:current_user)
+        payload
       end
 
       def parse_headers(headers)

@@ -12,7 +12,7 @@ module Carbonyte
 
     initializer 'carbonyte.catch_404' do
       config.after_initialize do |app|
-        app.routes.append { match '*path', to: 'core#not_found', via: :all }
+        app.routes.append { match '*path', to: 'carbonyte/application#route_not_found', via: :all }
       end
     end
   end
