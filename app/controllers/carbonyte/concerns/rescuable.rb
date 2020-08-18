@@ -10,8 +10,13 @@ module Carbonyte
 
       included do
         rescue_from Pundit::NotAuthorizedError, with: :unauthorized
+        rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
         rescue_from Interactor::Failure, with: :interactor_failure
-        rescue_from ActiveRecord::RecordInvalid, with: :record_invalid
+        rescue_from ActiveRecord::RecordInvalid,
+                    ActiveRecord::RecordNotSaved,
+                    with: :record_invalid
+        # Last one is for any other error
+        rescue_from StandardError, with: :internal_error
       end
 
       # Upon rescuing an exception, stores that exception in RequestStore for later logging
@@ -46,7 +51,20 @@ module Carbonyte
           title: 'Not Authorized By Policy',
           detail: exc.message
         }
-        render json: serialized_errors(payload), status: :unauthorized
+        render json: serialized_errors(payload), status: :forbidden
+      end
+
+      def record_not_found(exc)
+        payload = {
+          code: exc.class.name,
+          source: {
+            model: exc.model,
+            id: exc.id
+          },
+          title: 'Resource Not Found',
+          detail: exc.message
+        }
+        render json: serialized_errors(payload), status: :not_found
       end
 
       def interactor_failure(exc)
@@ -75,6 +93,15 @@ module Carbonyte
             }
           end
         end
+      end
+
+      def internal_error(exc)
+        payload = {
+          code: exc.class.name,
+          title: 'Internal Server Error',
+          detail: exc.message
+        }
+        render json: serialized_errors(payload), status: :internal_server_error
       end
     end
   end

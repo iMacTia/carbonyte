@@ -8,6 +8,8 @@ module Carbonyte
     module Lograge
       extend ActiveSupport::Concern
 
+      PARAMS_EXCEPTIONS = %w[controller action].freeze
+
       included do
         initializer 'carbonyte.lograge' do
           Rails.application.config.tap do |config|
@@ -26,8 +28,9 @@ module Carbonyte
         end
       end
 
-      def custom_options(_event)
+      def custom_options(event)
         opts = {
+          params: event.payload[:params].except(*PARAMS_EXCEPTIONS),
           correlation_id: RequestStore.store[:correlation_id],
           environment: Rails.env,
           pid: ::Process.pid
@@ -47,9 +50,7 @@ module Carbonyte
       end
 
       def custom_payload(controller)
-        exceptions = %w[controller action]
         payload = {
-          params: controller.params.except(*exceptions),
           headers: parse_headers(controller.request.headers),
           remote_ip: controller.remote_ip
         }
