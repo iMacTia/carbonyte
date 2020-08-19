@@ -9,6 +9,7 @@ module Carbonyte
       extend ActiveSupport::Concern
 
       PARAMS_EXCEPTIONS = %w[controller action].freeze
+      LOG_TYPE = 'SERVER_REQUEST'
 
       included do
         initializer 'carbonyte.lograge' do
@@ -30,6 +31,7 @@ module Carbonyte
 
       def custom_options(event)
         opts = {
+          type: LOG_TYPE,
           params: event.payload[:params].except(*PARAMS_EXCEPTIONS),
           correlation_id: RequestStore.store[:correlation_id],
           environment: Rails.env,
@@ -45,7 +47,7 @@ module Carbonyte
         opts[:rescued_exception] = {
           name: exc.class.name,
           message: exc.message,
-          backtrace: %('#{Array(exc.backtrace).join("\n\t")}')
+          backtrace: %('#{Array(exc.backtrace.first(10)).join("\n\t")}')
         }
       end
 

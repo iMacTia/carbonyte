@@ -9,14 +9,15 @@ module Carbonyte
       extend ActiveSupport::Concern
 
       included do
-        rescue_from Pundit::NotAuthorizedError, with: :unauthorized
+        # The first one MUST be StandardError as otherwise will catch all others
+        rescue_from StandardError, with: :internal_error
+
+        rescue_from Pundit::NotAuthorizedError, with: :policy_not_authorized
         rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
         rescue_from Interactor::Failure, with: :interactor_failure
         rescue_from ActiveRecord::RecordInvalid,
                     ActiveRecord::RecordNotSaved,
                     with: :record_invalid
-        # Last one is for any other error
-        rescue_from StandardError, with: :internal_error
       end
 
       # Upon rescuing an exception, stores that exception in RequestStore for later logging
@@ -40,11 +41,20 @@ module Carbonyte
       private
 
       def serialized_errors(payload)
-        payload = [payload] unless payload.is_a?(Enumerable)
+        payload = Array(payload)
         { errors: payload }.to_json
       end
 
-      def unauthorized(exc)
+      def unauthenticated(exc)
+        payload = {
+          code: exc.class.name,
+          title: 'User Not Authenticated',
+          detail: exc.message
+        }
+        render json: serialized_errors(payload), status: :unauthorized
+      end
+
+      def policy_not_authorized(exc)
         payload = {
           code: exc.class.name,
           source: { policy: exc.policy.class.name },

@@ -9,9 +9,16 @@ module Carbonyte
     module Sidekiq
       extend ActiveSupport::Concern
 
+      LOG_TYPE = 'WORKER'
+
       included do
         initializer 'carbonyte.sidekiq' do
           ::Sidekiq::Logstash.setup
+          ::Sidekiq::Logstash.configure do |config|
+            config.custom_options = lambda do |payload|
+              payload['type'] = LOG_TYPE
+            end
+          end
 
           ::Sidekiq.configure_client do |config|
             # config.redis = { url: Rails.application.config.redis_url }
