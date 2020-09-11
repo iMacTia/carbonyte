@@ -1,6 +1,9 @@
 # frozen_string_literal: true
 
 require 'carbonyte/initializers'
+require 'interactor/rails'
+require 'jsonapi/serializer'
+require 'pundit'
 
 module Carbonyte
   # Carbonyte Engine

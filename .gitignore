@@ -1,6 +1,7 @@
 .bundle/
 .idea/
 .yardoc/
+.generators
 doc/
 log/*.log
 pkg/
