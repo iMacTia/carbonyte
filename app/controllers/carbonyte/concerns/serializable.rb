@@ -6,6 +6,7 @@ module Carbonyte
     module Serializable
       extend ActiveSupport::Concern
 
+      # Default options for serializers
       def serializer_options
         {
           include: include_option,
