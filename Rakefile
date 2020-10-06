@@ -19,17 +19,3 @@ end
 load 'rails/tasks/statistics.rake'
 
 require 'bundler/gem_tasks'
-
-# Rubocop
-require 'rubocop/rake_task'
-
-RuboCop::RakeTask.new(:rubocop) do |t|
-  t.options = ['--display-cop-names']
-end
-
-# Inch
-require 'inch/rake'
-
-Inch::Rake::Suggest.new do |t|
-  t.options = ['--only-undocumented']
-end
