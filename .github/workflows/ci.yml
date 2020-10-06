@@ -19,7 +19,7 @@ jobs:
       - name: Rubocop
         run: bundle exec rubocop --format progress
       - name: Inch
-        run: "ruby -e \"require 'json'; res = JSON.parse('${$(bundle exec inch stats --format=json)}')['grade_lists']; exit(1) if res['C'].positive? || res['U'].positive?\""
+        run: "ruby -e \"require 'json'; res = JSON.parse('$(bundle exec inch stats --format=json)')['grade_lists']; exit(1) if res['C'].positive? || res['U'].positive?\""
 
   test:
     runs-on: ubuntu-latest
