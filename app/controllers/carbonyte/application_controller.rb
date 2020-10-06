@@ -8,6 +8,7 @@ module Carbonyte
     include Concerns::Rescuable
     include Concerns::Serializable
 
+    # Returns the current user
     def current_user
       raise NotImplementedError, 'Error: `current_user` method needs to be implemented in your ApplicationController.'
     end

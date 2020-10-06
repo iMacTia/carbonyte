@@ -8,7 +8,9 @@ module Carbonyte
     module Lograge
       extend ActiveSupport::Concern
 
+      # Items to be removed from `params` hash
       PARAMS_EXCEPTIONS = %w[controller action].freeze
+      # Log type, this allows to distinguish these logs from others
       LOG_TYPE = 'SERVER_REQUEST'
 
       included do
@@ -29,6 +31,7 @@ module Carbonyte
         end
       end
 
+      # Adds custom options to the Lograge event
       def custom_options(event)
         opts = {
           type: LOG_TYPE,
@@ -41,6 +44,7 @@ module Carbonyte
         opts
       end
 
+      # Adds the rescued exception (if any) to the Lograge event
       def add_rescued_exception(opts, exc)
         return unless exc
 
@@ -51,6 +55,7 @@ module Carbonyte
         }
       end
 
+      # Adds custom payload to the Lograge event
       def custom_payload(controller)
         payload = {
           headers: parse_headers(controller.request.headers),
@@ -60,6 +65,7 @@ module Carbonyte
         payload
       end
 
+      # Parses headers returning only those starting with "HTTP", but excluding cookies
       def parse_headers(headers)
         headers.to_h.select { |k, _v| k.start_with?('HTTP') and k != 'HTTP_COOKIE' }
       end

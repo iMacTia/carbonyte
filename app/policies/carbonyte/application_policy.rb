@@ -5,35 +5,33 @@ module Carbonyte
   class ApplicationPolicy
     attr_reader :user, :record
 
+    # Initializes a new policy with the current user and the record
     def initialize(user, record)
       @user = user
       @record = record
     end
 
+    # Can the user get a list of records?
     def index?
       true
     end
 
+    # Can the user get this specific record?
     def show?
       true
     end
 
+    # Can the user create a new record?
     def create?
       true
     end
 
-    def new?
-      create?
-    end
-
+    # Can the user update this record?
     def update?
       true
     end
 
-    def edit?
-      update?
-    end
-
+    # Can the user destroy this record?
     def destroy?
       true
     end
@@ -42,11 +40,13 @@ module Carbonyte
     class Scope
       attr_reader :user, :scope
 
+      # Initializes a new scope from the user and a base scope
       def initialize(user, scope)
         @user = user
         @scope = scope
       end
 
+      # Resolves the scope effectively triggering the query
       def resolve
         scope.all
       end
