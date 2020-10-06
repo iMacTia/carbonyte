@@ -9,6 +9,7 @@ module Carbonyte
     module Sidekiq
       extend ActiveSupport::Concern
 
+      # Log type, this allows to distinguish these logs from others
       LOG_TYPE = 'WORKER'
 
       included do
@@ -40,6 +41,8 @@ module Carbonyte
       module Middleware
         # This Client middleware adds the RequestStore payload to the job
         class SaveRequestStore
+          # Overrides the standard Sidekiq middleware `call` method
+          # @param job [Hash] an hash representing the job being executed
           def call(_worker, job, _queue, _redis_pool)
             job['current_user_id'] = RequestStore.store[:current_user_id]
             job['correlation_id'] = RequestStore.store[:correlation_id]
@@ -50,6 +53,8 @@ module Carbonyte
         # This Server middleware retrieves the RequestStore payload from the job and ensures
         # it gets cleared before the next job execution
         class LoadRequestStore
+          # Overrides the standard Sidekiq middleware `call` method
+          # @param job [Hash] an hash representing the job being executed
           def call(_worker, job, _queue)
             RequestStore.store[:current_user_id] = job['current_user_id']
             RequestStore.store[:correlation_id] = job['correlation_id']

@@ -3,6 +3,7 @@
 require 'request_store'
 
 module Carbonyte
+  # Module enclosing all concerns
   module Concerns
     # The Correlatable concern automatically manages the correlation ID
     module Correlatable
@@ -13,6 +14,7 @@ module Carbonyte
         after_action :send_correlation_id
       end
 
+      # Retrieves the request correlation ID
       def correlation_id
         RequestStore.store[:correlation_id]
       end

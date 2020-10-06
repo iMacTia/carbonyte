@@ -1,0 +1,36 @@
+name: CI
+
+on:
+  push:
+    branches: [ master ]
+  pull_request:
+
+jobs:
+  linting:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Set up Ruby
+        uses: ruby/setup-ruby@v1
+        with:
+          ruby-version: 2.7
+      - name: Install dependencies
+        run: bundle install --jobs 4
+      - name: Rubocop
+        run: bundle exec rubocop --format progress
+      - name: Inch
+        run: "ruby -e \"require 'json'; res = JSON.parse('$(bundle exec inch stats --format=json)')['grade_lists']; exit(1) if res['C'].positive? || res['U'].positive?\""
+
+#  test:
+#    runs-on: ubuntu-latest
+#
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: Set up Ruby
+#        uses: ruby/setup-ruby@v1
+#        with:
+#          ruby-version: 2.7
+#      - name: Install dependencies
+#        run: bundle install --jobs 4
+#      - name: Run tests
+#        run: bundle exec rake
