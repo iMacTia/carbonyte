@@ -28,10 +28,4 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'request_store', '~> 1.5'
   spec.add_dependency 'sidekiq', '~> 6.1'
   spec.add_dependency 'sidekiq-logstash', '~> 2.0'
-
-  spec.add_development_dependency 'inch', '~> 0.8.0'
-  spec.add_development_dependency 'rspec-rails', '~> 4.0'
-  spec.add_development_dependency 'rubocop-performance', '~> 1.5'
-  spec.add_development_dependency 'rubocop-rails', '~> 2.7'
-  spec.add_development_dependency 'sqlite3', '~> 1.4'
 end
