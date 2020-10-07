@@ -2,6 +2,7 @@
 .idea/
 .yardoc/
 .generators
+coverage/
 doc/
 log/*.log
 pkg/

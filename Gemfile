@@ -7,6 +7,7 @@ gemspec
 
 group :development do
   gem 'rspec-rails', '~> 4.0'
+  gem 'simplecov', '~> 0.12'
   gem 'sqlite3', '~> 1.4'
 end
 
