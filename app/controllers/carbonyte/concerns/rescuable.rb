@@ -41,7 +41,7 @@ module Carbonyte
       private
 
       def serialized_errors(payload)
-        payload = Array(payload)
+        payload = [payload] unless payload.is_a?(Array)
         { errors: payload }.to_json
       end
 
@@ -80,7 +80,7 @@ module Carbonyte
       def interactor_failure(exc)
         payload = {
           code: exc.class.name,
-          source: { interactor: exc.context._called.last.class.name },
+          source: { interactor: exc.context.current_interactor.class.name },
           title: 'Interactor Failure',
           detail: exc.context.error
         }

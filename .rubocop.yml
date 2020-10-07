@@ -7,3 +7,9 @@ AllCops:
   DisplayStyleGuide: true
   NewCops: enable
   TargetRubyVersion: 2.7
+  Exclude:
+    - 'spec/dummy/**/*.rb'
+
+# This cop causes issues with Hashes
+Style/ArrayCoercion:
+  Enabled: false
