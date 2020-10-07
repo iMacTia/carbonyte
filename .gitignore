@@ -2,6 +2,10 @@
 .idea/
 .yardoc/
 .generators
+coverage/
 doc/
 log/*.log
 pkg/
+spec/dummy/tmp
+spec/dummy/log
+/spec/dummy/db/test.sqlite3
