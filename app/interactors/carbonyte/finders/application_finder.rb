@@ -25,8 +25,6 @@ module Carbonyte
         paginate
       end
 
-      protected
-
       # Returns true if the provided relation can be included
       # @param _rel [Symbol] the relation to include
       def can_include?(_rel)
@@ -37,9 +35,9 @@ module Carbonyte
 
       def include_relations
         context.params[:include].split(',').each do |relation|
-          next unless can_include?(relation)
+          next unless can_include?(relation.to_sym)
 
-          context.scope = context.scope.includes(relation)
+          context.scope = context.scope.includes(relation.to_sym)
         end
       end
 
@@ -48,9 +46,9 @@ module Carbonyte
       end
 
       def sort_exp(prop)
-        return prop unless prop.start_with?('-')
+        return prop.to_sym unless prop.start_with?('-')
 
-        { prop[1..] => :desc }
+        { prop[1..].to_sym => :desc }
       end
 
       def sort
