@@ -1,5 +1,5 @@
 # frozen_string_literal: true
 
-class ApplicationRecord < ActiveRecord::Base
+class ApplicationRecord < Carbonyte::ApplicationRecord
   self.abstract_class = true
 end
