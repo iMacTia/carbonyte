@@ -9,4 +9,3 @@ pkg/
 spec/dummy/tmp
 spec/dummy/log
 spec/dummy/db/*.sqlite3
-spec/dummy/db/schema.rb
