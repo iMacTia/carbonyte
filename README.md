@@ -13,11 +13,6 @@ And then execute:
 $ bundle
 ```
 
-## Configuration
-```ruby
-Rails.application.config.redis_url
-```
-
 ## Contributing
 Before pushing:
 * Run `rubocop` to show code styles offences
