@@ -15,9 +15,11 @@ Gem::Specification.new do |spec|
   spec.summary     = 'Build Microservices-oriented Architectures with ease'
   spec.description = 'Carbonyte is the core of great Microservices-oriented Architectures.'
   spec.license     = 'MIT'
-  spec.files = Dir['{app,config,db,lib}/**/*', 'Rakefile', 'README.md']
+  # Expose spec folder and spec/support to plugins
+  spec.files = Dir['{app,config,db,lib,spec}/**/*', 'Rakefile', 'README.md']
+  spec.require_paths = %w[lib spec/support]
 
-  spec.required_ruby_version = Gem::Requirement.new('>= 2.5.0')
+  spec.required_ruby_version = Gem::Requirement.new('>= 2.7.0')
 
   spec.add_dependency 'interactor-rails', '~> 2.0'
   spec.add_dependency 'jsonapi-serializer', '~> 2.0'
@@ -26,6 +28,4 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'pundit', '~> 2.1'
   spec.add_dependency 'rails', '~> 6.0.3', '>= 6.0.3.2'
   spec.add_dependency 'request_store', '~> 1.5'
-  spec.add_dependency 'sidekiq', '~> 6.1'
-  spec.add_dependency 'sidekiq-logstash', '~> 2.0'
 end

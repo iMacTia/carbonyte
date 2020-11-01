@@ -5,8 +5,8 @@ module Carbonyte
   class ApplicationController < ActionController::API
     include Concerns::Correlatable
     include Concerns::Loggable
-    include Concerns::Policiable
     include Concerns::Rescuable
+    include Concerns::Policiable
     include Concerns::Serializable
 
     # GET /health

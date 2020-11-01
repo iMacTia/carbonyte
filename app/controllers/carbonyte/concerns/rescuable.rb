@@ -12,7 +12,6 @@ module Carbonyte
         # The first one MUST be StandardError as otherwise will catch all others
         rescue_from StandardError, with: :internal_error
 
-        rescue_from Pundit::NotAuthorizedError, with: :policy_not_authorized
         rescue_from ActiveRecord::RecordNotFound, with: :record_not_found
         rescue_from Interactor::Failure, with: :interactor_failure
         rescue_from ActiveRecord::RecordInvalid,
@@ -52,16 +51,6 @@ module Carbonyte
           detail: exc.message
         }
         render json: serialized_errors(payload), status: :unauthorized
-      end
-
-      def policy_not_authorized(exc)
-        payload = {
-          code: exc.class.name,
-          source: { policy: exc.policy.class.name },
-          title: 'Not Authorized By Policy',
-          detail: exc.message
-        }
-        render json: serialized_errors(payload), status: :forbidden
       end
 
       def record_not_found(exc)
