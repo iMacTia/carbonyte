@@ -16,7 +16,7 @@ jobs:
           ruby-version: 2.7
           bundler-cache: true
       - name: Rubocop
-        run: bundle exec rubocop --format progress
+        run: bundle exec rubocop --format progress --config .rubocop.yml
       - name: Inch
         run: "ruby -e \"require 'json'; res = JSON.parse('$(bundle exec inch stats --format=json)')['grade_lists']; exit(1) if res['C'].positive? || res['U'].positive?\""
 
