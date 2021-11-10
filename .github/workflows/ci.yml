@@ -14,8 +14,7 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7
-      - name: Install dependencies
-        run: bundle install --without default development --jobs 4
+          bundler-cache: true
       - name: Rubocop
         run: bundle exec rubocop --format progress
       - name: Inch
@@ -30,7 +29,6 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7
-      - name: Install dependencies
-        run: bundle install --without linting --jobs 4
+          bundler-cache: true
       - name: Run tests
         run: bundle exec rake
