@@ -8,6 +8,7 @@ module Carbonyte
     # Interactor hooks are not inherited by subclasses, so we need a hack.
     # @see https://github.com/collectiveidea/interactor/issues/114
     def self.inherited(klass)
+      super
       klass.class_eval do
         before do
           context.current_interactor = self

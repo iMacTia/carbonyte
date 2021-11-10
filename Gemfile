@@ -15,4 +15,5 @@ group :linting do
   gem 'inch', '~> 0.8.0'
   gem 'rubocop-performance', '~> 1.5'
   gem 'rubocop-rails', '~> 2.7'
+  gem 'rubocop-rspec', '~> 2.4'
 end

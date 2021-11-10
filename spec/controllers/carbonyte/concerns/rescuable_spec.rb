@@ -1,17 +1,20 @@
 # frozen_string_literal: true
 
-RSpec.describe Carbonyte::Concerns::Rescuable, type: :controller do
-  class FakePolicy < Carbonyte::ApplicationPolicy
-    def index?
-      false
-    end
+class FakePolicy < Carbonyte::ApplicationPolicy
+  def index?
+    false
   end
+end
 
-  class FakeInteractor < Carbonyte::ApplicationInteractor
-    def call
-      context.fail!
-    end
+class FakeInteractor < Carbonyte::ApplicationInteractor
+  def call
+    context.fail!
   end
+end
+
+RSpec.describe Carbonyte::Concerns::Rescuable, type: :controller do
+  let(:errors) { parsed_response['errors'] }
+  let(:error) { errors.first }
 
   controller(ApplicationController) do
     def index
@@ -34,9 +37,6 @@ RSpec.describe Carbonyte::Concerns::Rescuable, type: :controller do
       User.create!
     end
   end
-
-  let(:errors) { parsed_response['errors'] }
-  let(:error) { errors.first }
 
   it 'rescues all exceptions inheriting from StandardError' do
     get :index

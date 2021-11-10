@@ -1,13 +1,15 @@
 # frozen_string_literal: true
 
 RSpec.describe Carbonyte::ApplicationInteractor do
-  class TestInteractor < Carbonyte::ApplicationInteractor
-    def call
-      context.this_should_be_me = context.current_interactor
+  let(:test_interactor) do
+    Class.new(Carbonyte::ApplicationInteractor) do
+      def call
+        context.this_should_be_me = context.current_interactor
+      end
     end
   end
 
-  let(:interactor) { TestInteractor.new }
+  let(:interactor) { test_interactor.new }
 
   it 'sets the current_interactor in context before #call' do
     interactor.run

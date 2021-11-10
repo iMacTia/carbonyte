@@ -1,17 +1,17 @@
 # frozen_string_literal: true
 
 RSpec.describe Carbonyte::Finders::ApplicationFinder do
-  class TestFinder < Carbonyte::Finders::ApplicationFinder
-    ALLOWED_INCLUDES = %i[field1 field2].freeze
-
-    def can_include?(rel)
-      ALLOWED_INCLUDES.include?(rel)
+  let(:test_finder) do
+    Class.new(Carbonyte::Finders::ApplicationFinder) do
+      def can_include?(rel)
+        %i[field1 field2].include?(rel)
+      end
     end
   end
 
   let(:params) { {} }
   let(:scope) { double }
-  let(:finder) { TestFinder.new(scope: scope, params: params) }
+  let(:finder) { test_finder.new(scope: scope, params: params) }
 
   before do
     allow(scope).to receive(:limit).and_return(scope)
@@ -19,7 +19,7 @@ RSpec.describe Carbonyte::Finders::ApplicationFinder do
   end
 
   it 'does not include any relation by default' do
-    expect(described_class.new.can_include?(:any)).to be_falsey
+    expect(described_class.new).not_to be_can_include(:any)
   end
 
   it 'automatically paginates the result with default values' do
