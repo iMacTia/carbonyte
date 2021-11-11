@@ -10,7 +10,7 @@ AllCops:
   TargetRubyVersion: 2.7
   Exclude:
     - 'spec/dummy/**/*.rb'
-    - 'vendor/bundle/**/*.rb'
+    - 'vendor/bundle/**/*'
 
 # This cop causes issues with Hashes
 Style/ArrayCoercion:
