@@ -13,7 +13,7 @@ gem 'carbonyte'
 
 And then execute:
 ```bash
-$ bundle
+bundle
 ```
 
 ## Contributing

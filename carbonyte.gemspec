@@ -26,6 +26,6 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'lograge', '~> 0.11'
   spec.add_dependency 'logstash-event', '~> 1.2'
   spec.add_dependency 'pundit', '~> 2.1'
-  spec.add_dependency 'rails', '~> 6.0.3', '>= 6.0.3.2'
+  spec.add_dependency 'rails', '~> 6.1'
   spec.add_dependency 'request_store', '~> 1.5'
 end

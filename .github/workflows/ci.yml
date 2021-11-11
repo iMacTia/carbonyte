@@ -14,10 +14,9 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7
-      - name: Install dependencies
-        run: bundle install --without default development --jobs 4
+          bundler-cache: true
       - name: Rubocop
-        run: bundle exec rubocop --format progress
+        run: bundle exec rubocop --format progress --config .rubocop.yml
       - name: Inch
         run: "ruby -e \"require 'json'; res = JSON.parse('$(bundle exec inch stats --format=json)')['grade_lists']; exit(1) if res['C'].positive? || res['U'].positive?\""
 
@@ -30,7 +29,6 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           ruby-version: 2.7
-      - name: Install dependencies
-        run: bundle install --without linting --jobs 4
+          bundler-cache: true
       - name: Run tests
         run: bundle exec rake
